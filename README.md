@@ -16,7 +16,7 @@ image → blur → BGR→HSV → cv2.inRange(H,S,V min/max) → mask → pixel c
 ```
 
 ## Get the APK
-Every push builds the APK automatically: **Actions → latest "Build APK" run → Artifacts → ColorCount-APK**.
+Every push builds the APK automatically. When it's done, download **ColorCount.apk** from the **[Releases](../../releases/latest)** page (right side of the repository page).
 
 See [BUILD_APK.md](BUILD_APK.md) for installing it on a phone and other ways to build it.
 

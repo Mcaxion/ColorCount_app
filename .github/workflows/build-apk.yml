@@ -4,7 +4,15 @@ name: Build APK
 
 on:
   push:
+    branches: [main]
   workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-apk
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -57,16 +65,40 @@ jobs:
           set -o pipefail
           yes | buildozer -v android debug 2>&1 | tee build.log
 
-      - name: Upload APK
+      - name: Name the APK
+        run: cp bin/*.apk bin/ColorCount.apk && ls -la bin
+
+      - name: Publish the APK as a GitHub Release (easy download link)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: apk-v${{ github.run_number }}
+          name: ColorCount APK (build ${{ github.run_number }})
+          body: |
+            **Download `ColorCount.apk` below**, copy it to your Android phone and tap it to install.
+            (Allow "Install unknown apps" when Android asks.)
+          files: bin/ColorCount.apk
+          make_latest: true
+
+      - name: Also keep the APK on the apk-output branch
+        run: |
+          mkdir out && cp bin/ColorCount.apk out/ && cd out
+          git init -q && git checkout -q -b apk-output
+          git add ColorCount.apk
+          git -c user.name=github-actions -c user.email=actions@github.com commit -q -m "APK from build ${{ github.run_number }}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" apk-output
+
+      - name: Upload APK as an artifact
         uses: actions/upload-artifact@v4
         with:
           name: ColorCount-APK
-          path: bin/*.apk
-          if-no-files-found: error
+          path: bin/ColorCount.apk
 
-      - name: Upload build log (if it failed)
+      - name: Save the build log to the build-log branch (if it failed)
         if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-log
-          path: build.log
+        run: |
+          mkdir logout
+          (tail -n 800 build.log 2>/dev/null || echo "build.log was not created") > logout/build-log.txt
+          df -h / >> logout/build-log.txt
+          cd logout && git init -q && git checkout -q -b build-log && git add .
+          git -c user.name=github-actions -c user.email=actions@github.com commit -q -m "Build log of run ${{ github.run_number }}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" build-log
