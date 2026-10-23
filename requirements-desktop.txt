@@ -1,0 +1,5 @@
+# Only for testing the Android app on a computer (python main.py).
+# The APK itself is built by Buildozer from buildozer.spec.
+kivy>=2.3
+opencv-python>=4.8
+numpy>=1.24

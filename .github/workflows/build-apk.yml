@@ -1,0 +1,72 @@
+# Builds the Android APK on GitHub's servers every time code is pushed.
+# The finished APK appears under  Actions -> (latest run) -> Artifacts -> ColorCount-APK
+name: Build APK
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /opt/hostedtoolcache/CodeQL /usr/local/lib/android || true
+          df -h /
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Install system packages
+        run: |
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git zip unzip autoconf automake libtool \
+               pkg-config zlib1g-dev libncurses-dev libffi-dev libssl-dev cmake build-essential ccache
+          for L in libtinfo libncurses; do
+            [ -e /usr/lib/x86_64-linux-gnu/$L.so.5 ] || sudo ln -sf /usr/lib/x86_64-linux-gnu/$L.so.6 /usr/lib/x86_64-linux-gnu/$L.so.5
+          done
+
+      - name: Install Buildozer
+        run: |
+          python -m venv ~/bvenv
+          ~/bvenv/bin/pip install -q --upgrade pip
+          ~/bvenv/bin/pip install -q buildozer "cython==0.29.37" setuptools
+          ~/bvenv/bin/buildozer --version
+
+      - name: Cache Android SDK/NDK and compiled libraries
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.buildozer
+            .buildozer
+          key: buildozer-${{ runner.os }}-${{ hashFiles('buildozer.spec') }}
+
+      - name: Build APK (first build ~40-60 min)
+        run: |
+          source ~/bvenv/bin/activate
+          set -o pipefail
+          yes | buildozer -v android debug 2>&1 | tee build.log
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: ColorCount-APK
+          path: bin/*.apk
+          if-no-files-found: error
+
+      - name: Upload build log (if it failed)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: build.log
