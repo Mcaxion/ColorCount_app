@@ -446,6 +446,7 @@ class ColorCountApp(App):
         self.toast_lbl = Label(text="", font_size=sp(13), color=rgba("#ffffff"), size_hint=(None, None),
                                halign="center", valign="middle", opacity=0, padding=(dp(14), dp(8)))
         self.toast_lbl.bind(texture_size=lambda l, ts: setattr(l, "size", ts))
+        self.toast_lbl.bind(size=lambda *_: self._place_toast())   # re-centre when the text changes
         self._toast_bg = paint(self.toast_lbl, "#2a3142", radius=dp(18))
         root.add_widget(self.toast_lbl)
         root.bind(size=lambda *_: self._place_toast())
