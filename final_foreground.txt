@@ -1,0 +1,1 @@
+    mResumedActivity: ActivityRecord{d92dc66 u0 org.visiontoolkit.colorcount/org.kivy.android.PythonActivity t12}

@@ -1,0 +1,33 @@
+10-23 17:48:49.919  2264  2443 V python  : extracting _python_bundle/site-packages/Cython/Compiler/Errors.pyc
+10-23 17:48:50.074  2264  2443 V python  : extracting _python_bundle/site-packages/Cython/Plex/Errors.pyc
+10-23 17:48:53.180  2264  2645 I python  : [ERROR  ] Error when copying logo directory
+10-23 17:48:53.180  2264  2645 I python  : Traceback (most recent call last):
+10-23 17:48:53.180  2264  2645 I python  : shutil.Error: [('/data/user/0/org.visiontoolkit.colorcount/files/app/_python_bundle/site-packages/kivy/data/logo/kivy-icon-128.png', '/data/user/0/org.visiontoolkit.colorcount/files/app/.kivy/icon/kivy-icon-128.png', "[Errno 13] Permission denied: '/data/user/0/org.visiontoolkit.colorcount/files/app/.kivy/icon/kivy-icon-128.png'"), ('/data/user/0/org.visiontoolkit.colorcount/files/app/_python_bundle/site-packages/kivy/data/logo/kivy-icon-16.png', '/data/user/0/org.visiontoolkit.colorcount/files/app/.kivy/icon/kivy-icon-16.png', "[Errno 13] Permission denied: '/data/user/0/org.visiontoolkit.colorcount/files/app/.kivy/icon/kivy-icon-16.png'"), ('/data/user/0/org.visiontoolkit.colorcount/files/app/_python_bundle/site-packages/kivy/data/logo/kivy-icon-24.png', '/data/user/0/org.visiontoolkit.colorcount/files/app/.kivy/icon/kivy-icon-24.png', "[Errno 13] Permission denied: '/data/user/0/org.visiontoolkit.colorcount/files/app/.kivy/icon/kivy-icon-24.png'"), ('/data/user/0/org.visiontoolkit.colorcount/files/app/_python_bundle/site-packages/kivy/data/logo/kivy-icon-256.png', '/data/user/0/org.visiontoolkit.colorcount/files/app/.kivy/icon/kivy-icon-256.png', "[Errno 13] Permission denied: '/data/user/0/org.visiontoolkit.colorcount/files/app/.kivy/icon/kivy-icon-256.png'"), ('/data/user/0/org.visiontoolkit.colorcount/files/app/_python_bundle/site-packages/kivy/data/logo/kivy-icon-32.png', '/data/user/0/org.visiontoolkit.colorcount/files/app/.kivy/icon/kivy-icon-32.png', "[Errno 13] Permission denied: '/data/user/0/org.visiontoolkit.colorcount/files/app/.kivy/icon/kivy-icon-32.png'"), ('/data/user/0/org.visiontoolkit.colorcount/files/app/_python_bundle/site-packages/kivy/data/logo/kivy-icon-48.png', '/data/user/0/org.visiontoolkit.colorcount/files/app/.kivy/icon/kivy-icon-48.png', "[Errno 13] Permission denied: '/data/user/0/org.visiontoolkit.colorcount/files/app/.kivy/icon/kivy-icon-48.png'"), ('/data/user/0/org.visiontoolkit.colorcount/files/app/_python_bundle/site-packages/kivy/data/logo/kivy-icon-512.png', '/data/user/0/org.visiontoolkit.colorcount/files/app/.kivy/icon/kivy-icon-512.png', "[Errno 13] Permission denied: '/data/user/0/org.visiontoolkit.colorcount/files/app/.kivy/icon/kivy-icon-512.png'"), ('/data/user/0/org.visiontoolkit.colorcount/files/app/_python_bundle/site-packages/kivy/data/logo/kivy-icon-64.ico', '/data/user/0/org.visiontoolkit.colorcount/files/app/.kivy/icon/kivy-icon-64.ico', "[Errno 13] Permission denied: '/data/user/0/org.visiontoolkit.colorcount/files/app/.kivy/icon/kivy-icon-64.ico'"), ('/data/user/0/org.visiontoolkit.colorcount/files/app/_python_bundle/site-packages/kivy/data/logo/kivy-icon-64.png', '/data/user/0/org.visiontoolkit.colorcount/files/app/.kivy/icon/kivy-icon-64.png', "[Errno 13] Permission denied: '/data/user/0/org.visiontoolkit.colorcount/files/app/.kivy/icon/kivy-icon-64.png'"), ('/data/user/0/org.visiontoolkit.colorcount/files/app/_python_bundle/site-packages/kivy/data/logo', '/data/user/0/org.visiontoolkit.colorcount/files/app/.kivy/icon', "[Errno 13] Permission denied: '/data/user/0/org.visiontoolkit.colorcount/files/app/.kivy/icon'")]
+10-23 17:49:09.900  2264  2645 I python  : SELFTEST BEGIN
+10-23 17:49:11.044  2264  2645 I python  : SELFTEST INFO visible-frame top=63 bottom=2274 left=0 right=1080
+10-23 17:49:11.044  2264  2645 I python  : SELFTEST STEP 1 layout OK | window=(1080, 2211) density=96.0 status_top=63
+10-23 17:49:15.625  2264  2645 I python  : SELFTEST STEP 2 sample OK | red preset objects=5 pixels=13724 (1.96%)
+10-23 17:49:18.990  2264  2645 I python  : SELFTEST STEP 3 pick OK | picked=#1E6EC8 Cornflower Blue objects=5 pixels=14923 (2.13%) range=[H 100–112  ·  S 119–255  ·  V 110–255]
+10-23 17:49:22.294  2264  2645 I python  : SELFTEST STEP 4 trackbars OK | trackbars tab shown
+10-23 17:49:26.289  2264  2645 I python  : TAPCOORD hmax_from 640 2138
+10-23 17:49:26.290  2264  2645 I python  : TAPCOORD hmax_to 964 2086
+10-23 17:49:26.540  2264  2645 I python  : SELFTEST STEP 5 slider OK | h_max=179 -> objects=10 pixels=27832 (3.98%)
+10-23 17:49:30.311  2264  2645 I python  : SELFTEST STEP 6 mask OK | mask view
+10-23 17:49:34.952  2264  2645 I python  : SELFTEST STEP 7 objects OK | yellow objects=5 pixels=13813 (1.97%) rows=5
+10-23 17:49:41.327  2264  2645 I python  : SELFTEST STEP 8 save OK | image: Saved to Pictures/ColorCount | csv: Saved to Documents/ColorCount
+10-23 17:49:42.364  2264  2645 I python  : SELFTEST STEP 9 settings OK | settings tab shown
+10-23 17:49:46.924  2264  2645 I python  : SELFTEST STEP 10 camera OK | camera started=True msg=Live camera: tap Capture to freeze the picture
+10-23 17:49:54.200  2264  2645 I python  : SELFTEST STEP 11 camera_live OK | frames=11 image=(640, 480, 3) objects=2 pixels=3538 (1.15%)
+10-23 17:49:59.047  2264  2645 I python  : SELFTEST STEP 12 capture OK | source=Captured frame camera_off=True objects=1 pixels=2409 (0.78%)
+10-23 17:50:02.509  2264  2645 I python  : SELFTEST STEP 13 gallery OK | gallery picker requested
+10-23 17:50:13.205  2264  2645 I python  : TAPCOORD btn_sample 669 1107
+10-23 17:50:13.205  2264  2645 I python  : TAPCOORD btn_camera 410 1107
+10-23 17:50:13.208  2264  2645 I python  : TAPCOORD tab_trackbars 411 1522
+10-23 17:50:13.209  2264  2645 I python  : TAPCOORD tab_objects 925 1522
+10-23 17:50:13.210  2264  2645 I python  : TAPCOORD tab_colors 154 1522
+10-23 17:50:13.210  2264  2645 I python  : TAPCOORD view_mask 668 978
+10-23 17:50:13.210  2264  2645 I python  : TAPCOORD view_highlight 154 978
+10-23 17:50:13.215  2264  2645 I python  : TAPCOORD chip_green 214 2698
+10-23 17:50:13.406  2264  2645 I python  : TAPCOORD candy 168 372
+10-23 17:50:13.408  2264  2645 I python  : SELFTEST STEP 14 final OK | coordinates printed; objects=5 pixels=13724 (1.96%)
+10-23 17:50:15.346  2264  2645 I python  : SELFTEST DONE

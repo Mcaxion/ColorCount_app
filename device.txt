@@ -1,0 +1,4 @@
+ABI: x86_64,arm64-v8a
+Android: 12 (API 31)
+Physical size: 1080x2400
+Physical density: 420
