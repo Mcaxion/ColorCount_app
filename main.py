@@ -49,6 +49,20 @@ DEFAULT_TOL = 6
 MONO = "RobotoMono-Regular"
 ANDROID = platform == "android"
 
+def selftest_requested():
+    """True when the app is started for automated testing (never for normal users)."""
+    if os.environ.get("COLORCOUNT_SELFTEST"):
+        return True
+    if ANDROID:
+        try:
+            from jnius import autoclass
+            intent = autoclass("org.kivy.android.PythonActivity").mActivity.getIntent()
+            return intent is not None and intent.getStringExtra("selftest") is not None
+        except Exception:
+            return False
+    return False
+
+
 # --------------------------------------------------------------------------- #
 #  Theme
 # --------------------------------------------------------------------------- #
@@ -411,6 +425,7 @@ class ColorCountApp(App):
         self._objects_dirty = True
         self._last_list = 0.0
         self._chooser = None
+        self._frames = 0
 
         root = FloatLayout()
         main = BoxLayout(orientation="vertical", padding=(dp(12), dp(10), dp(12), dp(10)), spacing=dp(10))
@@ -799,6 +814,7 @@ class ColorCountApp(App):
         frame = self._read_frame()
         if frame is None:
             return
+        self._frames += 1
         self.image, _ = fit_max(frame, LIVE_SIDE)
         self.refresh(live=True)
 
@@ -1032,6 +1048,11 @@ class ColorCountApp(App):
         lbl.opacity = 1
         anim = Animation(opacity=1, d=seconds) + Animation(opacity=0, d=0.4)
         anim.start(lbl)
+
+    def on_start(self):
+        if selftest_requested():
+            from selftest import SelfTest
+            Clock.schedule_once(lambda dt: SelfTest(self).start(), 4)
 
     def on_pause(self):
         self.stop_camera()

@@ -117,3 +117,41 @@ jobs:
           cd logout && git init -q && git checkout -q -b build-log && git add .
           git -c user.name=github-actions -c user.email=actions@github.com commit -q -m "Build log of run ${{ github.run_number }}"
           git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" build-log
+
+  test-on-emulator:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Enable KVM (hardware acceleration for the emulator)
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: ColorCount-APK
+          path: apk
+
+      - name: Run the app on an Android emulator (Pixel 6, Android 12)
+        continue-on-error: true
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 31
+          arch: x86_64
+          target: google_apis
+          profile: pixel_6
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot -camera-back emulated
+          script: bash .github/scripts/emulator_test.sh
+
+      - name: Save screenshots and logs to the test-results branch
+        if: always()
+        run: |
+          mkdir -p test-results && cd test-results
+          git init -q && git checkout -q -b test-results && git add -A
+          git -c user.name=github-actions -c user.email=actions@github.com commit -q --allow-empty -m "Emulator test of build ${{ github.run_number }}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" test-results
