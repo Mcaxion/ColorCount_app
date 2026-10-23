@@ -39,7 +39,7 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git zip unzip autoconf automake libtool \
-               pkg-config zlib1g-dev libncurses-dev libffi-dev libssl-dev cmake build-essential ccache
+               pkg-config zlib1g-dev libncurses-dev libffi-dev libssl-dev cmake build-essential ccache libltdl-dev
           for L in libtinfo libncurses; do
             [ -e /usr/lib/x86_64-linux-gnu/$L.so.5 ] || sudo ln -sf /usr/lib/x86_64-linux-gnu/$L.so.6 /usr/lib/x86_64-linux-gnu/$L.so.5
           done
