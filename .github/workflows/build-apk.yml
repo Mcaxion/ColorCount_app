@@ -51,8 +51,9 @@ jobs:
           ~/bvenv/bin/pip install -q buildozer "cython==0.29.37" setuptools
           ~/bvenv/bin/buildozer --version
 
-      - name: Cache Android SDK/NDK and compiled libraries
-        uses: actions/cache@v4
+      - name: Restore cached Android SDK/NDK and compiled libraries
+        id: cache
+        uses: actions/cache/restore@v4
         with:
           path: |
             ~/.buildozer
@@ -62,8 +63,22 @@ jobs:
       - name: Build APK (first build ~40-60 min)
         run: |
           source ~/bvenv/bin/activate
-          set -o pipefail
+          # "yes" answers any prompt; it exits with an error when buildozer
+          # finishes, so take buildozer's own exit code instead of the pipe's.
+          set +e
           yes | buildozer -v android debug 2>&1 | tee build.log
+          status=${PIPESTATUS[1]}
+          ls -la bin/ || true
+          exit $status
+
+      - name: Save the cache (even if a later step fails)
+        if: always() && steps.cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            ~/.buildozer
+            .buildozer
+          key: buildozer-${{ runner.os }}-${{ hashFiles('buildozer.spec') }}
 
       - name: Name the APK
         run: cp bin/*.apk bin/ColorCount.apk && ls -la bin
